@@ -49,6 +49,7 @@ public class StapelTest {
 		
 		// Assertion
 		assertTrue(ergebnis);
+		
 	}
 	
 	@Test

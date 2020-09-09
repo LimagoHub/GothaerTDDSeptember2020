@@ -19,7 +19,7 @@ public class PersonServiceImpl {
 	/**
 	 * Exception wenn:
 	 * 
-	 * 1. personParameter ist null
+	 * 1. personParameter ist null 
 	 * 2. vorname oder nachname null sind
 	 * 3. vorname oder nachname weniger als 2 zeichen haben
 	 * 4. vorname Attila 

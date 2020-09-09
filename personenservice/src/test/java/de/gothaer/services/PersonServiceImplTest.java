@@ -13,10 +13,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import de.gothaer.persistence.PersonRepository;
 import de.gothaer.persistence.model.Person;
+import mockit.MockUp;
 
 import static org.mockito.Mockito.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PersonServiceImplTest {
@@ -62,7 +64,7 @@ public class PersonServiceImplTest {
 		try {
 			final Person person = new Person("J", "Doe");
 			objectUnderTest.speichern(person);
-			fail("Upps");
+			fail("Upps"); 
 		} catch (PersonenServiceException e) {
 			assertEquals("Vorname zu kurz", e.getMessage());
 		}
@@ -122,12 +124,31 @@ public class PersonServiceImplTest {
 
 	@Test
 	public void speichern_HappyDay_PersonSavedInRepository() throws Exception {
+		
+		new MockUp<UUID>() {
+			@mockit.Mock
+			public String toString() {
+				return "1234567890";
+			}
+		};
+		
 		when(antipathenMock.contains(anyString())).thenReturn(false);
 		final Person validPerson = new Person();
 		objectUnderTest.speichern(validPerson);
 		verify(personRepositoryMock, times(1)).save(validPerson);
-		assertNotNull(validPerson.getId());
-
+		assertEquals("1234567890", validPerson.getId());
+	}
+	
+	@Test
+	public void hallo() {
+		new MockUp<System>() {
+			@mockit.Mock
+			public long currentTimeMillis() {
+				return 1234567890L;
+			}
+		};
+	
+		System.out.println(System.currentTimeMillis());
 	}
 
 }
